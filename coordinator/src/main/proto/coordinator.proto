@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_outer_classname = "CoordinatorProto";
+
+
+package coordinator;
+
+service Coordinator {
+  rpc RegisterDataNode(RegisterDataNodeRequest) returns (RegisterDataNodeResponse);
+  rpc UnregisterDataNode(UnregisterDataNodeRequest) returns (UnregisterDataNodeResponse);
+  rpc WriteFile(WriteFileRequest) returns (WriteFileResponse);
+  rpc ReadFile(ReadFileRequest) returns (ReadFileResponse);
+}
+
+message RegisterDataNodeRequest {
+  string address = 1;
+}
+
+message RegisterDataNodeResponse {
+  bool success = 1;
+}
+
+message UnregisterDataNodeRequest {
+  string address = 1;
+}
+
+message UnregisterDataNodeResponse {
+  bool success = 1;
+}
+
+message WriteFileRequest {
+  string file_path = 1;
+}
+
+message WriteFileResponse {
+  string data_node_address = 1;
+  string upload_id = 2;
+}
+
+message ReadFileRequest {
+  string file_path = 1;
+}
+
+message ReadFileResponse {
+  string data_node_address = 1;
+  string file_id = 2;
+}

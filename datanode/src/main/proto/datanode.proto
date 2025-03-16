@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+
+option java_outer_classname = "DataNodeProto";
+
+package datanode;
+
+service DataNode {
+  rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
+  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileResponse);
+}
+
+message UploadFileRequest {
+  string upload_id = 1;
+  bytes content = 2;
+}
+
+message UploadFileResponse {
+  bool success = 1;
+}
+
+message DownloadFileRequest {
+  string file_id = 1;
+}
+
+message DownloadFileResponse {
+  bytes content = 1;
+}
