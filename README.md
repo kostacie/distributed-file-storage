@@ -47,9 +47,9 @@ java -jar coordinator/target/coordinator.jar
 
 #### Start DataNodes
 ```sh
-java -jar datanode/target/datanode.jar 5001 datanode1 &
-java -jar datanode/target/datanode.jar 5002 datanode2 &
-java -jar datanode/target/datanode.jar 5003 datanode3 &
+java -jar datanode/target/datanode.jar 5001 datanode1
+java -jar datanode/target/datanode.jar 5002 datanode2
+java -jar datanode/target/datanode.jar 5003 datanode3
 ```
 
 #### Start Client
