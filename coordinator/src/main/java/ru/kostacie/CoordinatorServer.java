@@ -7,6 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+
+/**
+ * Сервер для работы с CoordinatorService.
+ */
 @Slf4j
 public class CoordinatorServer
 {
@@ -19,6 +23,11 @@ public class CoordinatorServer
         coordinator.awaitTermination();
     }
 
+    /**
+     * Запускает CoordinatorService.
+     *
+     * @throws IOException если не удается запустить сервер.
+     */
     private void startCoordinator() throws IOException {
         CoordinatorService coordinatorService = new CoordinatorService();
         server = ServerBuilder.forPort(PORT)

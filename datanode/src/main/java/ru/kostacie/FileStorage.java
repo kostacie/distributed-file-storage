@@ -54,9 +54,9 @@ public class FileStorage {
 
     /**
      * Загружает файл из хранилища.
+     * Возвращает контент файла.
      *
      * @param fileId ID файла.
-     * Возвращает контент файла в виде массива байтов.
      * @throws IOException если файл не найден.
      */
     public synchronized byte[] getFile(String fileId) throws IOException {
