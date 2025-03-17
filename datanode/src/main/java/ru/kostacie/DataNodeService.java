@@ -1,6 +1,7 @@
 package ru.kostacie;
 
 import com.google.protobuf.ByteString;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class DataNodeService extends datanode.DataNodeGrpc.DataNodeImplBase {
 
     /**
      * Загружает файл на DataNode.
+     *
      * @param responseObserver ответ для клиента.
      */
     @Override
@@ -89,15 +91,14 @@ public class DataNodeService extends datanode.DataNodeGrpc.DataNodeImplBase {
     /**
      * Читает файл из FileStorage.
      *
-     * @param request           запрос с ID файла.
-     * @param responseObserver  ответ для клиента.
+     * @param request          запрос с ID файла.
+     * @param responseObserver ответ для клиента.
      */
     @Override
     public void downloadFile(DownloadFileRequest request, StreamObserver<DownloadFileResponse> responseObserver) {
         try {
             String fileId = request.getFileId();
             byte[] fileData = fileStorage.getFile(fileId);
-            // Если файла не существует - ошибка
             if (fileData == null) {
                 responseObserver.onError(new FileNotFoundException("File not found: " + fileId));
                 return;
@@ -107,7 +108,7 @@ public class DataNodeService extends datanode.DataNodeGrpc.DataNodeImplBase {
             DownloadFileResponse response = DownloadFileResponse.newBuilder().setContent(byteContent).build();
             responseObserver.onNext(response);
 
-            log.info("File sent: {}", fileId);
+            log.info("File successfully sent: {}", fileId);
 
             responseObserver.onCompleted();
         } catch (IOException e) {

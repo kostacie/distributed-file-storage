@@ -27,7 +27,7 @@ public class Client
             case "write":
                 client.writeFile(filePath);
                 break;
-            case "download":
+            case "read":
                 client.readFile(filePath);
                 break;
             default:

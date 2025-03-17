@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY coordinator/target/coordinator.jar coordinator.jar
+CMD ["java", "-jar", "coordinator.jar"]

@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  coordinator:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.coordinator
+    container_name: coordinator
+    ports:
+      - "5051:5051"
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:5051" ]
+#      interval: 10s
+#      retries: 5
+#      timeout: 5s
+#      start_period: 5s
+
+  datanode1:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.datanode
+    container_name: datanode1
+    command: [ "java", "-jar", "datanode.jar", "5001", "datanode1" ]
+    ports:
+      - "5001:5001"
+    depends_on:
+      - coordinator
+#        condition: service_healthy
+
+  datanode2:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.datanode
+    container_name: datanode2
+    command: [ "java", "-jar", "datanode.jar", "5002", "datanode2" ]
+    ports:
+      - "5002:5002"
+    depends_on:
+      - coordinator
+#        condition: service_healthy
+
+  datanode3:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.datanode
+    container_name: datanode3
+    command: [ "java", "-jar", "datanode.jar", "5003", "datanode3" ]
+    ports:
+      - "5003:5003"
+    depends_on:
+      - coordinator
+#        condition: service_healthy
+
+  client:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.client
+    container_name: client
+    depends_on:
+      - coordinator
+#        condition: service_healthy
+#      - datanode1
+#      - datanode2
+#      - datanode3

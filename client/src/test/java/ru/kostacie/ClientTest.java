@@ -7,7 +7,7 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class FileStorageClientTest
+public class ClientTest
     extends TestCase
 {
     /**
@@ -15,7 +15,7 @@ public class FileStorageClientTest
      *
      * @param testName name of the test case
      */
-    public FileStorageClientTest(String testName )
+    public ClientTest(String testName )
     {
         super( testName );
     }
@@ -25,7 +25,7 @@ public class FileStorageClientTest
      */
     public static Test suite()
     {
-        return new TestSuite( FileStorageClientTest.class );
+        return new TestSuite( ClientTest.class );
     }
 
     /**

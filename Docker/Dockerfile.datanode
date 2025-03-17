@@ -1,0 +1,4 @@
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY datanode/target/datanode.jar datanode.jar
+CMD ["java", "-jar", "datanode.jar"]

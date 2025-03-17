@@ -54,8 +54,8 @@ public class DataNodeServer {
 
         log.info("DataNode {} started on port {}", dataNodeId, port);
 
-        // Регистрируем DataNode в Координаторе
-        requestToCoordinator();
+        // Добавляем DataNode в Координатор
+        addToCoordinator();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             removeFromCoordinator();
@@ -67,7 +67,7 @@ public class DataNodeServer {
     /**
      * Добавляет DataNode в список CoordinatorService.
      */
-    private void requestToCoordinator() {
+    private void addToCoordinator() {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(COORDINATOR_HOST, COORDINATOR_PORT)
                 .usePlaintext()
                 .build();
