@@ -36,7 +36,7 @@ This project is a distributed file storage system that allows clients to store a
 
 ### **Build the Project**
 ```sh
-mvn clean install
+mvn clean package
 ```
 
 ### **Manual Execution**
