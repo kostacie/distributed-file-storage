@@ -34,11 +34,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
             <scope>runtime</scope>
@@ -59,11 +54,11 @@
             <artifactId>protobuf-java</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>annotations-api</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>

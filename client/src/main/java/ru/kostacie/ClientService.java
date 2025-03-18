@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Клиент для взаимодействия с CoordinatorService и DataNode.
@@ -30,6 +30,7 @@ public class ClientService {
 
     public ClientService(String coordinatorHost, int coordinatorPort) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress(coordinatorHost, coordinatorPort)
+                .keepAliveTime(60, TimeUnit.SECONDS)
                 .usePlaintext()
                 .build();
         coordinatorStub = CoordinatorGrpc.newBlockingStub(channel);
@@ -44,11 +45,15 @@ public class ClientService {
         WriteFileRequest request = WriteFileRequest.newBuilder().setFilePath(filePath).build();
         WriteFileResponse response = coordinatorStub.writeFile(request);
 
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+
+
         String[] addressParts = response.getDataNodeAddress().split(":");
         String host = addressParts[0];
         int port = Integer.parseInt(addressParts[1]);
 
         ManagedChannel dataNodeChannel = ManagedChannelBuilder.forAddress(host, port)
+                .keepAliveTime(60, TimeUnit.SECONDS)
                 .usePlaintext()
                 .build();
         try {
@@ -78,9 +83,13 @@ public class ClientService {
                     log.info("Upload completed.");
                 }
             });
+            finishLatch.await(5, TimeUnit.SECONDS);
 
             requestObserver.onNext(uploadRequest);
             requestObserver.onCompleted();
+        } catch (InterruptedException e) {
+            log.error("Error file uploading: {}", e.getMessage(), e);
+            throw new RuntimeException("Error file uploading", e);
         } finally {
             dataNodeChannel.shutdown();
         }
@@ -93,6 +102,7 @@ public class ClientService {
      */
     public void readFile(String filePath) {
         ReadFileRequest request = ReadFileRequest.newBuilder().setFilePath(filePath).build();
+        final CountDownLatch finishLatch = new CountDownLatch(1);
 
         try {
             ReadFileResponse response;
@@ -150,6 +160,8 @@ public class ClientService {
                     }
                 };
                 dataNodeStub.downloadFile(downloadRequest, responseObserver);
+                finishLatch.await(5, TimeUnit.MINUTES);
+
             } finally {
                 dataNodeChannel.shutdown();
                 try {
