@@ -3,7 +3,7 @@
 ## Overview
 This project is a distributed file storage system that allows clients to store and retrieve files over a gRPC-based architecture. It consists of three main components:
 
-- **Coordinator**: Handles client requests, manages file metadata, and assigns DataNodes.
+- **Coordinator**: Handles client requests, manages file data, and assigns DataNodes.
 - **DataNode**: Stores actual file data.
 - **Client**: Provides an interface for users to interact with the file system.
 
