@@ -8,6 +8,7 @@ This project is a distributed file storage system that allows clients to store a
 - **Client**: Provides an interface for users to interact with the file system.
 
 ## Features
+### _**Important:** not all features are implemented!_
 - Supports **file writing and reading** operations.
 - Uses **Protobuf & gRPC** for communication between components.
 - **Support** for multiple DataNodes.
